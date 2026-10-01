@@ -1,0 +1,28 @@
+import 'package:flutter/material.dart';
+import '../constants/app_constants.dart';
+
+class ResponsiveLayout {
+  ResponsiveLayout._();
+
+  static bool isMobile(BuildContext context) =>
+      MediaQuery.sizeOf(context).width < AppConstants.mobileBreakpoint;
+
+  static bool isTablet(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return width >= AppConstants.mobileBreakpoint && width < AppConstants.desktopBreakpoint;
+  }
+
+  static bool isDesktop(BuildContext context) =>
+      MediaQuery.sizeOf(context).width >= AppConstants.desktopBreakpoint;
+
+  static T value<T>(
+    BuildContext context, {
+    required T mobile,
+    T? tablet,
+    T? desktop,
+  }) {
+    if (isDesktop(context)) return desktop ?? tablet ?? mobile;
+    if (isTablet(context)) return tablet ?? mobile;
+    return mobile;
+  }
+}
